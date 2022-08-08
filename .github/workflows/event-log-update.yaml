@@ -1,15 +1,24 @@
-name: "Fire event after log file update"
+name: "Fire event if log file updated"
 on:
         push:
-                branches:
-                        - main
-                paths:
-                        - "file.log"
+                workflow_run:
+                        workflows: ["Fire event after log file update"]
+                types:
+                        - [completed]
 jobs:
         fire-event:
                 runs-on: ubuntu-latest
+                if: ${{ github.event.workflow_run.conclusion == 'success' }}
                 steps:
                         - uses: actions/checkout@v2
-                        - name: fire-event
-                          run: echo "file.log has been updated recently !"
+                        - uses: dorny/paths-filter@v2 # will create filters for changed files
+                          id: filter-log-data
+                          with:
+                                  filters: >
+                                          log: 
+                                            - 'file.log'
+
+                        - name: "Fire event if update"
+                          if: steps.filter-log-data.outputs.log == 'true'
+                          run: "Log file has been updated recently !"
 

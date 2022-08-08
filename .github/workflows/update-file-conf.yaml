@@ -1,6 +1,8 @@
 name: "Update log file after push"
 on:
-        workflow_dispatch:
+        push:
+                branches:
+                        - main
 
 
 jobs:
@@ -8,9 +10,6 @@ jobs:
                 runs-on: ubuntu-latest
                 steps:
                         - uses: actions/checkout@v2
-                          with: 
-                                token: ${{ secrets.SPECIAL_PAT }}
-
                         - name: append file
                           run: touch file.log && echo "Updated at $(date +'%Y-%m-%d')" >> file.log
 
