@@ -12,7 +12,7 @@ jobs:
                 steps:
                         - uses: actions/checkout@v2
                         - name: append file
-                          run: touch file.log && echo "Updated at $(date +'%Y-%m-%d')" >> file.log
+                          run: touch file.log && echo "Updated at $(date +'%Y-%m-%d %H:%M:%S')" >> file.log
 
 
                         - name: Commit differences
@@ -22,4 +22,26 @@ jobs:
                                   commit_user_name: GitHub Actions Bot
                                   commit_author: GitHub Action <actions@github.com>
                                   skip_dirty_check: false
+
+        fire-event:
+                runs-on: ubuntu-latest
+                needs: append
+                steps:
+                        - uses: actions/checkout@v2
+                        - uses: dorny/paths-filter@v2 # will create filters for changed files
+                          id: filter-data
+                          with:
+                                  filters: >
+                                          log: 
+                                            - 'file.log'
+                                          json:
+                                            - 'file.json'
+
+                        - name: "Fire event if update"
+                          if: steps.filter-data.outputs.log == 'true'
+                          run: echo "Log file has been updated recently !"
+
+                        - name: "Fire event if JSON file update"
+                          if: steps.filter-data.outputs.json == 'true'
+                          run: echo "json file has been updated recently !"
 
