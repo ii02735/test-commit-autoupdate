@@ -11,6 +11,9 @@ jobs:
                 runs-on: ubuntu-latest
                 steps:
                         - uses: actions/checkout@v2
+                          with:
+                                  ref: ${{ github.read_ref }}
+
                         - name: append file
                           run: touch file.log && echo "Updated at $(date +'%Y-%m-%d %H:%M:%S')" >> file.log
 
@@ -28,6 +31,8 @@ jobs:
                 needs: append
                 steps:
                         - uses: actions/checkout@v2
+                          with:
+                                  ref: ${{ github.read_ref }}
                         - uses: dorny/paths-filter@v2 # will create filters for changed files
                           id: filter-data
                           with:
