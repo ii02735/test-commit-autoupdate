@@ -1,4 +1,4 @@
-name: "Update log file after push"
+name: "Fire event after log file update"
 on:
         push:
                 branches:

@@ -8,6 +8,9 @@ jobs:
                 runs-on: ubuntu-latest
                 steps:
                         - uses: actions/checkout@v2
+                          with: 
+                                token: ${{ secrets.SPECIAL_PAT }}
+
                         - name: append file
                           run: touch file.log && echo "Updated at $(date +'%Y-%m-%d')" >> file.log
 
@@ -20,5 +23,3 @@ jobs:
                                   commit_author: GitHub Action <actions@github.com>
                                   skip_dirty_check: false
 
-                        - name: Push changes to repository
-                          run: git push https://ii02735:${{ secrets.GITHUB_TOKEN }}@github.com/ii02735/test-commit-autoupdate.git main 
