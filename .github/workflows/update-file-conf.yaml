@@ -9,6 +9,9 @@ on:
 jobs:
         append:
                 runs-on: ubuntu-latest
+                outputs:
+      			 log: ${{ steps.filter-data.outputs.log }}
+      			 json: ${{ steps.filter-data.outputs.log }}
                 steps:
                         - uses: actions/checkout@v2
                           with:
@@ -26,14 +29,6 @@ jobs:
                             git commit -m "Append log file"
                             git push
                             
-
-        fire-event:
-                runs-on: ubuntu-latest
-                needs: append
-                steps:
-                        - uses: actions/checkout@v2
-                          with:
-                                  ref: ${{ github.read_ref }}
                         - uses: dorny/paths-filter@v2 # will create filters for changed files
                           id: filter-data
                           with:
@@ -43,11 +38,21 @@ jobs:
                                           json:
                                             - 'file.json'
 
+                            
+
+        fire-event:
+                runs-on: ubuntu-latest
+                needs: append
+                steps:
+                        - uses: actions/checkout@v2
+                          with:
+                                  ref: ${{ github.read_ref }}
+
                         - name: "Fire event if update"
-                          if: steps.filter-data.outputs.log == 'true'
+                          if: ${{ needs.append.outputs.log == 'true' }}
                           run: echo "Log file has been updated recently !"
 
                         - name: "Fire event if JSON file update"
-                          if: steps.filter-data.outputs.json == 'true'
+                          if: ${{ needs.append.outputs.json == 'true' }}
                           run: echo "json file has been updated recently !"
 
