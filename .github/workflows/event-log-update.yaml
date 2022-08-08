@@ -2,8 +2,7 @@ name: "Fire event if log file updated"
 on: 
         workflow_run:
                 workflows: ["Fire event after log file update"]
-                types:
-                        - completed
+                types: [completed]
 jobs:
         fire-event:
                 runs-on: ubuntu-latest
