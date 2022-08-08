@@ -10,8 +10,8 @@ jobs:
         update-and-fire:
                 runs-on: ubuntu-latest
                 outputs:
-      			 log: ${{ steps.filter-data.outputs.log }}
-      			 json: ${{ steps.filter-data.outputs.log }}
+                  log: ${{ steps.filter-data.outputs.log }}
+                  json: ${{ steps.filter-data.outputs.log }}
                 steps:
                         - uses: actions/checkout@v2
                           with:
