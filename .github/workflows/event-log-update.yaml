@@ -1,0 +1,15 @@
+name: "Update log file after push"
+on:
+        push:
+                branches:
+                        - main
+                paths:
+                        - "file.log"
+jobs:
+        fire-event:
+                runs-on: ubuntu-latest
+                steps:
+                        - uses: actions/checkout@v2
+                        - name: fire-event
+                          run: echo "file.log has been updated recently !"
+

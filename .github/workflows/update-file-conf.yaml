@@ -1,0 +1,23 @@
+name: "Update log file after push"
+on:
+        push:
+                branches:
+                        - main
+
+
+jobs:
+        append:
+                runs-on: ubuntu-latest
+                steps:
+                        - uses: actions/checkout@v2
+                        - name: append file
+                          run: touch file.log && echo "Updated at $(date +'%Y-%m-%d')" >> file.log
+
+
+                        - name: Commit differences
+                          uses: stefanzweifel/git-auto-commit-action@v4
+                          with:
+                                  commit_message: "Append log file"
+                                  commit_user_name: GitHub Actions Bot
+                                  commit_author: GitHub Action <actions@github.com>
+                                  skip_dirty_check: false 
