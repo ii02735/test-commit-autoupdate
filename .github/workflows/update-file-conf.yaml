@@ -1,8 +1,6 @@
 name: "Update log file after push"
 on:
-        push:
-                branches:
-                        - main
+        workflow_dispatch:
 
 
 jobs:
@@ -20,4 +18,7 @@ jobs:
                                   commit_message: "Append log file"
                                   commit_user_name: GitHub Actions Bot
                                   commit_author: GitHub Action <actions@github.com>
-                                  skip_dirty_check: false 
+                                  skip_dirty_check: false
+
+                        - name: Push changes to repository
+                          run: git push https://ii02735:${{ secrets.GITHUB_TOKEN }}@github.com/ii02735/test-commit-autoupdate.git main 
