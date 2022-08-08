@@ -13,7 +13,7 @@ jobs:
                   log: ${{ steps.filter-data.outputs.log }}
                   json: ${{ steps.filter-data.outputs.log }}
                 steps:
-                        - uses: actions/checkout@v2
+                        - uses: azzctions/checkout@v2
                           with:
                                   ref: ${{ github.read_ref }}
 
@@ -33,7 +33,7 @@ jobs:
                           id: filter-data
                           with:
                                   base: HEAD
-                                  filters: >
+                                  filters: |
                                           log: 
                                             - 'file.log'
                                           json:
