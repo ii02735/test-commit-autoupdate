@@ -3,7 +3,7 @@ on:
         workflow_run:
                 workflows: ["Fire event after log file update"]
                 types:
-                        - [completed]
+                        - completed
 jobs:
         fire-event:
                 runs-on: ubuntu-latest
