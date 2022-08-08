@@ -23,7 +23,7 @@ jobs:
                           run: echo "Log file has been updated recently !"
 
                         - name: "Fire event if JSON file update"
-                          if: steps.filter-log-data.outputs.log == 'true'
+                          if: steps.filter-log-data.outputs.json == 'true'
                           run: echo "json file has been updated recently !"
 
 
