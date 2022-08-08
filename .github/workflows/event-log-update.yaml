@@ -16,8 +16,15 @@ jobs:
                                   filters: >
                                           log: 
                                             - 'file.log'
+                                          json:
+                                            - 'file.json'
 
                         - name: "Fire event if update"
                           if: steps.filter-log-data.outputs.log == 'true'
-                          run: "Log file has been updated recently !"
+                          run: echo "Log file has been updated recently !"
+
+                        - name: "Fire event if JSON file update"
+                          if: steps.filter-log-data.outputs.log == 'true'
+                          run: echo "json file has been updated recently !"
+
 
