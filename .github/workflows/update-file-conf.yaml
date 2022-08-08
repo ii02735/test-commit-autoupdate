@@ -7,7 +7,7 @@ on:
 
 
 jobs:
-        append:
+        update-and-fire:
                 runs-on: ubuntu-latest
                 outputs:
       			 log: ${{ steps.filter-data.outputs.log }}
@@ -32,27 +32,18 @@ jobs:
                         - uses: dorny/paths-filter@v2 # will create filters for changed files
                           id: filter-data
                           with:
+                                  base: HEAD
                                   filters: >
                                           log: 
                                             - 'file.log'
                                           json:
                                             - 'file.json'
 
-                            
-
-        fire-event:
-                runs-on: ubuntu-latest
-                needs: append
-                steps:
-                        - uses: actions/checkout@v2
-                          with:
-                                  ref: ${{ github.read_ref }}
-
                         - name: "Fire event if update"
-                          if: ${{ needs.append.outputs.log == 'true' }}
+                          if: steps.filter-data.outputs.log == 'true'
                           run: echo "Log file has been updated recently !"
 
                         - name: "Fire event if JSON file update"
-                          if: ${{ needs.append.outputs.json == 'true' }}
+                          if: steps.filter-data.outputs.json == 'true'
                           run: echo "json file has been updated recently !"
 
