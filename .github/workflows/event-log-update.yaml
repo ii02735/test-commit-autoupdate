@@ -1,4 +1,4 @@
-name: "Fire event if log file updated"
+name: "Fire event if file update"
 on: 
         workflow_run:
                 workflows: ["Update log file after push"]
@@ -10,7 +10,7 @@ jobs:
                 steps:
                         - uses: actions/checkout@v2
                         - uses: dorny/paths-filter@v2 # will create filters for changed files
-                          id: filter-log-data
+                          id: filter-data
                           with:
                                   filters: >
                                           log: 
@@ -19,11 +19,11 @@ jobs:
                                             - 'file.json'
 
                         - name: "Fire event if update"
-                          if: steps.filter-log-data.outputs.log == 'true'
+                          if: steps.filter-data.outputs.log == 'true'
                           run: echo "Log file has been updated recently !"
 
                         - name: "Fire event if JSON file update"
-                          if: steps.filter-log-data.outputs.json == 'true'
+                          if: steps.filter-data.outputs.json == 'true'
                           run: echo "json file has been updated recently !"
 
 
